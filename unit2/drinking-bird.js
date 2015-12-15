@@ -83,8 +83,20 @@ function createSupport() {
 	scene.add( cube );
 
 	// right foot
+	cube = new THREE.Mesh(
+		new THREE.CubeGeometry( 20+64+110, 52, 6 ), cubeMaterial );
+	cube.position.x = -45;	// (20+32) - half of width (20+64+110)/2
+	cube.position.y = 52/2;	// half of height
+	cube.position.z = -(77 + 6/2);	// offset 77 + half of depth 6/2
+	scene.add( cube );
 
 	// right leg
+	cube = new THREE.Mesh(
+		new THREE.CubeGeometry( 64, 334+52, 6 ), cubeMaterial );
+	cube.position.x = 0;	// centered on origin along X
+	cube.position.y = (334+52)/2;
+	cube.position.z = -(77 + 6/2);	// offset 77 + half of depth 6/2
+	scene.add( cube );
 
 }
 
