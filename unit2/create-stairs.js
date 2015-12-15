@@ -1,11 +1,11 @@
 "use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 ////////////////////////////////////////////////////////////////////////////////
-// Staircase exercise
-// Your task is to complete the model for simple stairs
-// Using the provided sizes and colors, complete the staircase
-// and reach the Gold Cup!
+// Staircase exercise                                                         //
+// Your task is to complete the model for simple stairs                       //
+// Using the provided sizes and colors, complete the staircase                //
+// and reach the Gold Cup!                                                    //
 ////////////////////////////////////////////////////////////////////////////////
-/*global THREE, Coordinates, $, document, window, dat*/
+/*global, THREE, Coordinates, $, document, window, dat*/
 
 var camera, scene, renderer;
 var cameraControls, effectController;
@@ -38,27 +38,30 @@ function createStairs() {
 	// +Y direction is up
 	// Define the two pieces of the step, vertical and horizontal
 	// THREE.CubeGeometry takes (width, height, depth)
-	var stepVertical = new THREE.CubeGeometry(stepWidth, verticalStepHeight, stepThickness);
-	var stepHorizontal = new THREE.CubeGeometry(stepWidth, stepThickness, horizontalStepDepth);
-	var stepMesh;
+    for (var i = 0; i < 6; i++){
 
-	// Make and position the vertical part of the step
-	stepMesh = new THREE.Mesh( stepVertical, stepMaterialVertical );
-	// The position is where the center of the block will be put.
-	// You can define position as THREE.Vector3(x, y, z) or in the following way:
-	stepMesh.position.x = 0;			// centered at origin
-	stepMesh.position.y = verticalStepHeight/2;	// half of height: put it above ground plane
-	stepMesh.position.z = 0;			// centered at origin
-	scene.add( stepMesh );
+        var stepVertical = new THREE.CubeGeometry(stepWidth, verticalStepHeight, stepThickness);
+        var stepHorizontal = new THREE.CubeGeometry(stepWidth, stepThickness, horizontalStepDepth);
+        var stepMesh;
 
-	// Make and position the horizontal part
-	stepMesh = new THREE.Mesh( stepHorizontal, stepMaterialHorizontal );
-	stepMesh.position.x = 0;
-	// Push up by half of horizontal step's height, plus vertical step's height
-	stepMesh.position.y = stepThickness/2 + verticalStepHeight;
-	// Push step forward by half the depth, minus half the vertical step's thickness
-	stepMesh.position.z = horizontalStepDepth/2 - stepHalfThickness;
-	scene.add( stepMesh );
+        // Make and position the vertical part of the step
+        stepMesh = new THREE.Mesh( stepVertical, stepMaterialVertical );
+        // The position is where the center of the block will be put.
+        // You can define position as THREE.Vector3(x, y, z) or in the following way:
+        stepMesh.position.x = 0;			// centered at origin
+        stepMesh.position.y = verticalStepHeight/2 + ((verticalStepHeight + stepThickness) * i);	// half of height: put it above ground plane
+        stepMesh.position.z = (stepWidth - (stepThickness * 3)) * i;			// centered at origin
+        scene.add( stepMesh );
+
+        // Make and position the horizontal part
+        stepMesh = new THREE.Mesh( stepHorizontal, stepMaterialHorizontal );
+        stepMesh.position.x = 0;
+        // Push up by half of horizontal step's height, plus vertical step's height
+        stepMesh.position.y = stepThickness/2 + verticalStepHeight + ((verticalStepHeight + stepThickness) * i);
+        // Push step forward by half the depth, minus half the vertical step's thickness
+        stepMesh.position.z = horizontalStepDepth/2 - stepHalfThickness + (( horizontalStepDepth - stepThickness ) * i);
+        scene.add( stepMesh );
+    }
 }
 
 function createCup() {
@@ -81,9 +84,6 @@ function createCup() {
 function init() {
 	var canvasWidth = 846;
 	var canvasHeight = 494;
-	// For grading the window is fixed in size; here's general code:
-	//var canvasWidth = window.innerWidth;
-	//var canvasHeight = window.innerHeight;
 	var canvasRatio = canvasWidth / canvasHeight;
 
 	// RENDERER
@@ -107,12 +107,12 @@ function init() {
 	fillScene();
 }
 function addToDOM() {
-	var container = document.getElementById('container');
-	var canvas = container.getElementsByTagName('canvas');
-	if (canvas.length>0) {
-		container.removeChild(canvas[0]);
-	}
-	container.appendChild( renderer.domElement );
+    var container = document.getElementById('container');
+    var canvas = container.getElementsByTagName('canvas');
+    if (canvas.length>0) {
+        container.removeChild(canvas[0]);
+    }
+    container.appendChild( renderer.domElement );
 }
 function fillScene() {
 	// SCENE
@@ -120,15 +120,17 @@ function fillScene() {
 	scene.fog = new THREE.Fog( 0x808080, 3000, 6000 );
 	// LIGHTS
 	var ambientLight = new THREE.AmbientLight( 0x222222 );
-	var light = new THREE.DirectionalLight( 0xFFFFFF, 1.0 );
+	var light = new THREE.DirectionalLight( 0xffffff, 1.0 );
 	light.position.set( 200, 400, 500 );
 
-	var light2 = new THREE.DirectionalLight( 0xFFFFFF, 1.0 );
+	var light2 = new THREE.DirectionalLight( 0xffffff, 1.0 );
 	light2.position.set( -400, 200, -300 );
 
 	scene.add(ambientLight);
 	scene.add(light);
 	scene.add(light2);
+
+	scene.add(camera);
 
 	if (ground) {
 		Coordinates.drawGround({size:1000});
@@ -180,7 +182,10 @@ function setupGui() {
 		newGridY: gridY,
 		newGridZ: gridZ,
 		newGround: ground,
-		newAxes: axes
+		newAxes: axes,
+
+		dummy: function() {
+		}
 	};
 
 	var gui = new dat.GUI();
@@ -194,11 +199,11 @@ function setupGui() {
 
 
 try {
-	init();
-	setupGui();
-	addToDOM();
-	animate();
+  init();
+  setupGui();
+  addToDOM();
+  animate();
 } catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
+    var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    $('#container').append(errorReport+e);
 }
