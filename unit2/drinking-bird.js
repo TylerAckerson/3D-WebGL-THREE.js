@@ -105,6 +105,17 @@ function createBody() {
 	var sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xA00000 } );
 	var cylinderMaterial = new THREE.MeshLambertMaterial( { color: 0x0000D0 } );
 
+	var body = new THREE.Mesh(
+		new THREE.SphereGeometry( 58, 32, 16 ), sphereMaterial);
+	body.position = new THREE.Vector3(0, 160, 0);
+	// ... or... body.position.y = 160;
+	scene.add( body );
+
+	var torso = new THREE.Mesh(
+		new THREE.CylinderGeometry( 12, 12, 390, 32 ), cylinderMaterial);
+	torso.position = new THREE.Vector3(0, 160 + 390/2, 0);
+	// ... or... torso.position.y = 160 + 390/2;
+	scene.add( torso );
 }
 
 // Head of the bird - head + hat
