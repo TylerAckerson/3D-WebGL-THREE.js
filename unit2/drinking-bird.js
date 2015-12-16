@@ -109,13 +109,13 @@ function createBody() {
 		new THREE.SphereGeometry( 58, 32, 16 ), sphereMaterial);
 	body.position = new THREE.Vector3(0, 160, 0);
 	// ... or... body.position.y = 160;
-	scene.add( body );
+	scene.add(body);
 
 	var torso = new THREE.Mesh(
 		new THREE.CylinderGeometry( 12, 12, 390, 32 ), cylinderMaterial);
 	torso.position = new THREE.Vector3(0, 160 + 390/2, 0);
 	// ... or... torso.position.y = 160 + 390/2;
-	scene.add( torso );
+	scene.add(torso);
 }
 
 // Head of the bird - head + hat
@@ -123,6 +123,20 @@ function createHead() {
 	var sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xA00000 } );
 	var cylinderMaterial = new THREE.MeshLambertMaterial( { color: 0x0000D0 } );
 
+	var head = new THREE.Mesh(
+		new THREE.SphereGeometry( 52, 32, 16 ), sphereMaterial);
+	head.position = new THREE.Vector3( 0, 550, 0);
+	scene.add(head);
+
+	var brim = new THREE.Mesh(
+		new THREE.CylinderGeometry( 71, 71, 10, 32), cylinderMaterial);
+	brim.position = new THREE.Vector3( 0, 595, 0);
+	scene.add(brim);
+
+	var cap = new THREE.Mesh(
+		new THREE.CylinderGeometry( 40, 40, 70, 32), cylinderMaterial);
+	cap.position = new THREE.Vector3( 0, 635, 0 );
+	scene.add(cap);
 }
 
 function createDrinkingBird() {
