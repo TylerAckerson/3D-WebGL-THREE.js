@@ -1,6 +1,5 @@
-"use strict"; // good practice - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 ////////////////////////////////////////////////////////////////////////////////
-/*global THREE, window, document, $*/
+/*global THREE, window, document*/
 var camera, scene, renderer;
 var cameraControls;
 var clock = new THREE.Clock();
@@ -14,7 +13,11 @@ function fillScene() {
 	geometry = new THREE.Geometry();
 
 	// Student: add a colored triangle here
+    var r = THREE.Color( 100, 0, 0);
+    var g = THREE.Color( 0, 100, 0);
+    var b = THREE.COlor( 0, 0, 100);
 
+    geometry.faces[0].vertices = [r, g, b];
 
 	mesh = new THREE.Mesh( geometry, material );
 
@@ -25,9 +28,6 @@ function fillScene() {
 function init() {
 	var canvasWidth = 846;
 	var canvasHeight = 494;
-	// For grading the window is fixed in size; here's general code:
-	//var canvasWidth = window.innerWidth;
-	//var canvasHeight = window.innerHeight;
 	var canvasRatio = canvasWidth / canvasHeight;
 
 	// RENDERER
@@ -48,12 +48,12 @@ function init() {
 }
 
 function addToDOM() {
-	var container = document.getElementById('container');
-	var canvas = container.getElementsByTagName('canvas');
-	if (canvas.length>0) {
-		container.removeChild(canvas[0]);
-	}
-	container.appendChild( renderer.domElement );
+    var container = document.getElementById('container');
+    var canvas = container.getElementsByTagName('canvas');
+    if (canvas.length>0) {
+        container.removeChild(canvas[0]);
+    }
+    container.appendChild( renderer.domElement );
 }
 
 function animate() {
@@ -70,12 +70,11 @@ function render() {
 
 
 try {
-	init();
-	fillScene();
-	addToDOM();
-	animate();
+  init();
+  fillScene();
+  addToDOM();
+  animate();
 } catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
+    var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    $('#container').append(errorReport+e);
 }
-
