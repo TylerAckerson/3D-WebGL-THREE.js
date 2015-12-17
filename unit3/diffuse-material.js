@@ -2,8 +2,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Diffuse material exercise
 ////////////////////////////////////////////////////////////////////////////////
-/*global THREE, window, document, $*/
-
+/*global THREE, window, document*/
 var camera, scene, renderer;
 var cameraControls;
 var clock = new THREE.Clock();
@@ -12,9 +11,6 @@ var ambientLight, light;
 function init() {
 	var canvasWidth = 846;
 	var canvasHeight = 494;
-	// For grading the window is fixed in size; here's general code:
-	//var canvasWidth = window.innerWidth;
-	//var canvasHeight = window.innerHeight;
 	var canvasRatio = canvasWidth / canvasHeight;
 
 	// CAMERA
@@ -24,9 +20,9 @@ function init() {
 	camera.lookAt(0,0,0);
 	// LIGHTS
 
-	ambientLight = new THREE.AmbientLight( 0xFFFFFF );
+	ambientLight = new THREE.AmbientLight( 0xffffff );
 
-	light = new THREE.DirectionalLight( 0xFFFFFF, 0.7 );
+	light = new THREE.DirectionalLight( 0xffffff, 0.7 );
 	light.position.set( -800, 900, 300 );
 
 	// RENDERER
@@ -44,8 +40,12 @@ function init() {
 }
 
 function createBall() {
-	// Do not change the color itself, change the material and use the ambient and diffuse components.
-	var material = new THREE.MeshBasicMaterial( { color: 0x80FC66, shading: THREE.FlatShading } );
+    // Do not change the color itself, change the material and use the ambient and diffuse components.
+	var material = new THREE.MeshLambertMaterial( { color: 0x80FC66 } );
+
+	var rgb = material.color; // decoupling r/g/b from material
+	material.ambient.setRGB( rgb.r * 0.4, rgb.g * 0.4, rgb.b * 0.4);
+
 	var sphere = new THREE.Mesh( new THREE.SphereGeometry( 400, 64, 32 ), material );
 	return sphere;
 }
@@ -53,6 +53,7 @@ function createBall() {
 function fillScene() {
 	scene = new THREE.Scene();
 	scene.fog = new THREE.Fog( 0x808080, 2000, 4000 );
+	scene.add( camera );
 
 	// LIGHTS
 	scene.add( ambientLight );
@@ -67,17 +68,19 @@ function fillScene() {
 }
 
 function addToDOM() {
-	var container = document.getElementById('container');
-	var canvas = container.getElementsByTagName('canvas');
-	if (canvas.length>0) {
-		container.removeChild(canvas[0]);
-	}
-	container.appendChild( renderer.domElement );
+    var container = document.getElementById('container');
+    var canvas = container.getElementsByTagName('canvas');
+    if (canvas.length>0) {
+        container.removeChild(canvas[0]);
+    }
+    container.appendChild( renderer.domElement );
 }
 
 function animate() {
+
 	window.requestAnimationFrame( animate );
 	render();
+
 }
 
 function render() {
@@ -89,11 +92,11 @@ function render() {
 }
 
 try {
-	init();
-	fillScene();
-	addToDOM();
-	animate();
+  init();
+  fillScene();
+  addToDOM();
+  animate();
 } catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
+    var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    $('#container').append(errorReport+e);
 }
