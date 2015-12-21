@@ -101,13 +101,13 @@ function fillScene() {
 
 		dot.position.x = 9.75;
 
-		// position will be different for each
+		// position will be different for each mouth dot
 		if (i === 2) {
 			dot.position.y = 69;
 		} else if (i < 2) {
-			dot.position.y = 68 + (2 - i * 0.7);
+			dot.position.y = 68 + (2 - (i * 0.7));
 		} else {
-			dot.position.y = 68 + (2 - i%2 * 0.7);
+			dot.position.y = 68 + (2 - ((i % 2) * 0.7));
 		}
 
 		dot.position.z = -2 + (i * 1);
