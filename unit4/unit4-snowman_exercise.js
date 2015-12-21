@@ -32,6 +32,8 @@ function fillScene() {
 
 	var snowMaterial = new THREE.MeshLambertMaterial( { color: 0xFFFFFF } );
 	var woodMaterial = new THREE.MeshLambertMaterial( { color: 0x75691B } );
+	var carrotMaterial = new THREE.MeshLambertMaterial( { color: 0xFFA500 } );
+	var dotMaterial = new THREE.MeshLambertMaterial( { color: 0x000000 } );
 
 	var sphere = new THREE.Mesh(
 		new THREE.SphereGeometry( 20, 32, 16 ), snowMaterial );
@@ -58,6 +60,60 @@ function fillScene() {
 	cylinder.position.y = 50;
 
 	scene.add( cylinder );
+
+	var carrot = new THREE.Mesh(
+		new THREE.CylinderGeometry( 1, 0, 10, 32 ), carrotMaterial );
+
+	carrot.rotation.x = 90 * Math.PI/180;
+	carrot.rotation.z = 90 * Math.PI/180;
+	carrot.position.y = 73;
+	carrot.position.x = 12;
+
+	scene.add(carrot);
+
+	var leftEye = new THREE.Mesh(
+		new THREE.CylinderGeometry( 1, 1, 0.5, 32 ), dotMaterial );
+
+	leftEye.rotation.x = 90 * Math.PI/180;
+	leftEye.rotation.z = 90 * Math.PI/180;
+	leftEye.position.y = 75;
+	leftEye.position.x = 8.5;
+	leftEye.position.z = 3;
+
+	scene.add(leftEye);
+
+	var rightEye = new THREE.Mesh(
+		new THREE.CylinderGeometry( 1, 1, 0.5, 32 ), dotMaterial );
+
+	rightEye.rotation.x = 90 * Math.PI/180;
+	rightEye.rotation.z = 90 * Math.PI/180;
+	rightEye.position.y = 75;
+	rightEye.position.x = 8.5;
+	rightEye.position.z = -3;
+
+	scene.add(rightEye);
+
+	for (var i = 0; i < 5; i++) {
+		var dot = new THREE.Mesh(
+			new THREE.CylinderGeometry( 0.7, 0.7, 0.5, 32 ), dotMaterial );
+		dot.rotation.x = 90 * Math.PI/180;
+		dot.rotation.z = 90 * Math.PI/180;
+
+		dot.position.x = 9.75;
+
+		// position will be different for each
+		if (i === 2) {
+			dot.position.y = 69;
+		} else if (i < 2) {
+			dot.position.y = 68 + (2 - i * 0.7);
+		} else {
+			dot.position.y = 68 + (2 - i%2 * 0.7);
+		}
+
+		dot.position.z = -2 + (i * 1);
+
+		scene.add(dot);
+	}
 }
 
 function init() {
