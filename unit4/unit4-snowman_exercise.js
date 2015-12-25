@@ -34,6 +34,7 @@ function fillScene() {
 	var woodMaterial = new THREE.MeshLambertMaterial( { color: 0x75691B } );
 	var carrotMaterial = new THREE.MeshLambertMaterial( { color: 0xFFA500 } );
 	var dotMaterial = new THREE.MeshLambertMaterial( { color: 0x000000 } );
+	var hatMaterial = new THREE.MeshLambertMaterial( { color: 0x006400 } );
 
 	var sphere = new THREE.Mesh(
 		new THREE.SphereGeometry( 20, 32, 16 ), snowMaterial );
@@ -114,6 +115,22 @@ function fillScene() {
 
 		scene.add(dot);
 	}
+
+	//top hat brim
+	cylinder = new THREE.Mesh(
+		new THREE.CylinderGeometry( 10, 10, 2, 32 ), hatMaterial );
+	cylinder.position.x = 0;
+	cylinder.position.y = 78;
+	cylinder.position.z = 0;
+	scene.add( cylinder );
+
+	//top hat dome
+	cylinder = new THREE.Mesh(
+		new THREE.CylinderGeometry( 7, 7, 10, 32 ), hatMaterial );
+	cylinder.position.x = 0;
+	cylinder.position.y = 84;
+	cylinder.position.z = 0;
+	scene.add( cylinder );
 }
 
 function init() {
@@ -136,11 +153,11 @@ function init() {
 
 	// CAMERA
 	camera = new THREE.PerspectiveCamera( 30, canvasRatio, 1, 10000 );
-	//camera.position.set( -170, 170, 40 );
+	camera.position.set( -170, 170, 40 );
 	// CONTROLS
 	cameraControls = new THREE.OrbitAndPanControls(camera, renderer.domElement);
-	//cameraControls.target.set(0,50,0);
-	camera.position.set(-120, 66, 23);
+	cameraControls.target.set(0,50,0);
+	camera.position.set(-180, 66, 23);
 	cameraControls.target.set(0, 43, -8);
 
 }
