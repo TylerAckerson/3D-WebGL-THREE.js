@@ -51,7 +51,7 @@ function fillScene() {
 
 	// Move the forearm itself to the end of the upper arm.
 	forearm.position.y = uaLength;
-	arm.add( forearm );
+	arm.add(forearm);
 	// scene.add( arm );
 
 	// YOUR CODE HERE
