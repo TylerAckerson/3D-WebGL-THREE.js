@@ -67,6 +67,10 @@ function fillScene() {
 	// YOUR CODE HERE
 	// Add the second grabber handRight. Note that it uses a different color, defined above
 	// ALSO EDIT render() TO ENABLE CONTROLS FOR GRABBER
+	handRight = new THREE.Object3D();
+	createRobotGrabber(handRight, handLength, robotHandRightMaterial);
+	handRight.position.y = faLength;
+	forearm.add(handRight);
 }
 
 function createRobotGrabber( part, length, material )
@@ -116,11 +120,11 @@ function createRobotCrane( part, length, material )
 }
 
 function init() {
-	var canvasWidth = 846;
-	var canvasHeight = 494;
+	// var canvasWidth = 846;
+	// var canvasHeight = 494;
 	// For grading the window is fixed in size; here's general code:
-	//var canvasWidth = window.innerWidth;
-	//var canvasHeight = window.innerHeight;
+	var canvasWidth = window.innerWidth;
+	var canvasHeight = window.innerHeight;
 	var canvasRatio = canvasWidth / canvasHeight;
 
 	// RENDERER
@@ -194,9 +198,12 @@ function render() {
 	forearm.rotation.y = effectController.fy * Math.PI/180;	// yaw
 	forearm.rotation.z = effectController.fz * Math.PI/180;	// roll
 
-	// ADD handRight yaw AND translate HERE
 	handLeft.rotation.z = effectController.hz * Math.PI/180;	// yaw
 	handLeft.position.z = effectController.htz;	// translate
+
+	// ADD handRight yaw AND translate HERE
+	handRight.rotation.z = effectController.hz * Math.PI/180;	// yaw
+	handRight.position.z = -(effectController.htz);	// translate
 
 	renderer.render(scene, camera);
 }
